@@ -2,11 +2,12 @@
 
 ## Installation Instructions
 
-##### Install the vector-python-sdk:
+#### vector-python-sdk:
 Jabberbot was built using ikkez's fork of the Vector SDK (v0.7.2) in order to take advantage of some additional features.
 Please follow the correct installation instructions for your operating system:
 > https://vector.ikkez.de/initial.html
 
+#### PyYaml:
 Jabberbot also requires PyYaml, which can be installed using the following:
 ```
     pip install --user pyyaml
