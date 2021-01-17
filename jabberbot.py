@@ -70,7 +70,7 @@ def execute_jabberbot(id, stop_thread):
                                 proximity_data = robot.proximity.last_sensor_reading
                                 if proximity_data is not None and proximity_data.found_object and robot.proximity.last_sensor_reading.distance.distance_mm in range(10, 60):
                                     vector_react(robot, "object_detected")
-                                    context.objectTimer = time.time() + 30  # Inital delay for unknown object detection.
+                                    context.objectTimer = time.time() + 30  # Delay for unknown object detection.
 
                         # Check to see if Vector being petted using his touch sensor data
                         touch_data = robot.touch.last_sensor_reading
