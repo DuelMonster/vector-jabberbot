@@ -122,7 +122,7 @@ def main():
 
     while True:
         try:
-            is_in_update_phase = (11 <= time.localtime().tm_hour < 12)
+            is_in_update_phase = (1 <= time.localtime().tm_hour < 6)
 
             if is_in_update_phase:
                 # We tell the Jabberbot theard to stop while Vector is in his update/restart phase.
