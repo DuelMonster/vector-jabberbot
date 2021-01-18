@@ -54,4 +54,5 @@ SWEAR_WORDS = [
     "Frick!",
     "Butt cheeks!",
     "Mother hubbad!",
+    "Christ on a bike!",
 ]
