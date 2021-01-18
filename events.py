@@ -69,6 +69,9 @@ def on_robot_state(robot, event_type, event):
 
                 context.restTimer = time.time() + random.randint(600, 1200)  # Delay timer for randomising time spent on charger.
 
+                # Reset the various timers to ensure that the app_intent isn't interupted
+                functions.reset_timers()
+
             else:
                 vector_react(robot, "charging")
                 context.chargingTimer = time.time() + 60  # Delay timer for on charger.
