@@ -75,14 +75,18 @@ def on_robot_state(robot, event_type, event):
                 functions.reset_timers()
 
             else:
-                vector_react(robot, "charging")
-                context.chargeTimer = time.time() + 60  # Delay timer for on charger.
-
-                if battery_state.battery_level < 3 and (context.restTimer - time.time()) < 0:
-                    context.restTimer = time.time() + random.randint(600, 1200)  # Delay timer for randomising time spent on charger.
-
-                # functions.debugPrint(f"Battery Level: {battery_state.battery_level}")
                 functions.debugPrint(f"Rest Time Remaining: {ceil((context.restTimer - time.time()) / 60)}")
+
+                # Vectors is in calm power mode
+                if robot.status.is_in_calm_power_mode and robot.status.is_on_charger:
+                    vector_react(robot, "sleeping")
+
+                else:
+                    vector_react(robot, "charging")
+                    context.chargeTimer = time.time() + 60  # Delay timer for on charger.
+
+                    if battery_state.battery_level < 3 and (context.restTimer - time.time()) < 0:
+                        context.restTimer = time.time() + random.randint(600, 1200)  # Delay timer for randomising time spent on charger.
 
         # Check battery levels
         elif not robot.status.is_on_charger and time.time() > context.chargeTimer:
@@ -101,10 +105,6 @@ def on_robot_state(robot, event_type, event):
                 vector_react(robot, "cube_battery")
                 functions.debugPrint(f"Cube battery Volts: {battery_state.cube_battery.battery_volts}")
 
-        # Vectors is in calm power mode
-        elif robot.status.is_in_calm_power_mode and robot.status.is_on_charger:
-            vector_react(robot, "sleeping")
-
         # Vectors has been picked up
         elif robot.status.is_being_held and time.time() > context.heldTimer:
             vector_react(robot, "picked_up")
@@ -114,18 +114,21 @@ def on_robot_state(robot, event_type, event):
         elif robot.status.is_cliff_detected and not robot.status.is_being_held:
             vector_react(robot, "cliff")
 
+        # Vector picked up his block
+        elif robot.status.is_carrying_block:
+            picked_up_block = robot.status.is_carrying_block
+
         # Vector dropped his block
         elif not robot.status.is_carrying_block and picked_up_block:
             vector_react(robot, "dropped_block")
             picked_up_block = False
 
-        # Vector picked up his block
-        elif robot.status.is_carrying_block:
-            picked_up_block = robot.status.is_carrying_block
-
         # Vectors button has been pressed
         elif robot.status.is_button_pressed:
             vector_react(robot, "button_pressed")
+
+        # else:
+        #     functions.debugPrint(f"{event_type}:\n{event}")
 
     return
 
