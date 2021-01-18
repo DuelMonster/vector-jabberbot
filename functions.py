@@ -87,3 +87,10 @@ def random_sentance_generator():
 
 def get_time():
     return time.strftime("%I:%M %p")
+
+def reset_timers():
+    context.chargingTimer = time.time() + 60  # Delay timer for on charger.
+    context.heldTimer = time.time() + 5  # Delay timer for been picked up.
+    context.faceTimer = time.time() + 30  # Delay timer for face detection.
+    context.chatTimer = time.time() + 30  # Delay timer for random chit-chat.
+    context.objectTimer = time.time() + 30  # Delay for unknown object detection.

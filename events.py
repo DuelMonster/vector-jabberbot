@@ -82,9 +82,9 @@ def on_robot_state(robot, event_type, event):
                 # functions.debugPrint(f"Battery Level: {robot.get_battery_state().battery_level}")
                 functions.debugPrint(f"Rest Time Remaining: {ceil((context.restTimer - time.time()) / 60)}")
 
-        # Vectors battery needs charging
-        elif not robot.status.is_on_charger and robot.get_battery_state().battery_level <= 1:
-            vector_react(robot, "needs_charging")
+        # Vectors battery needs charging - *** This currently doesn't work due to Vector performing his return to charger event
+        # elif not robot.status.is_on_charger and robot.get_battery_state().battery_level <= 1:
+        #     vector_react(robot, "needs_charging")
 
         # Vectors is in calm power mode
         elif robot.status.is_in_calm_power_mode and robot.status.is_on_charger:

@@ -142,4 +142,7 @@ def vector_sleep(robot):
 
     context.is_sleeping = False
 
+    # Reset the various timers to ensure Vector doesn't speak straight after waking up
+    functions.reset_timers()
+
     return
