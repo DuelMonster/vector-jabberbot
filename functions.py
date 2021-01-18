@@ -62,10 +62,10 @@ def get_joke():
     row = get_unspoken_row("jokes", len(context.JOKES) - 1)
     return context.JOKES[row]
 
-# Get the next random row that has been unspoken for the past 20 random rows
+# Get the next random row that has been unspoken
 def get_unspoken_row(spoken_list, dialogue_row_count):
     row_count = len(context.previously_spoken[spoken_list])
-    row_limit = floor(dialogue_row_count / 4)
+    row_limit = floor((dialogue_row_count / 4) * 3)  # Set row limit to three quaters of the total. e.g: 100 total = 75 row history
 
     row = random.randint(0, dialogue_row_count)
     if row_count > 1:
@@ -77,7 +77,7 @@ def get_unspoken_row(spoken_list, dialogue_row_count):
 
     context.previously_spoken[spoken_list].append(row)
 
-    # Write away the previously spoken row records at the same time as the timestamps
+    # Write away the previously spoken row records
     writeJSON('previously_spoken.json', context.previously_spoken)
 
     return row
