@@ -82,10 +82,8 @@ def execute_jabberbot(id, stop_thread):
                     # If Vector isn't aready sleeping instruct him to go to sleep using his default sleep routine.
                     if not context.is_sleeping:
                         context.is_sleeping = True
-
-                        # robot.conn.request_control()
-                        robot.behavior.app_intent(intent="greeting_goodnight")  # Sometimes Vector will ignore this request, not sure why...
-                        # robot.conn.release_control()
+                        if not robot.status.is_on_charger:
+                            robot.behavior.app_intent(intent="greeting_goodnight")  # Sometimes Vector will ignore this request, not sure why...
 
                     # Report that Vector is in DND mode
                     debugPrint(f"Vector is in DO-NOT-DISTURB mode...  {config.dnd_start}:00 <-> {config.dnd_end}:00")
