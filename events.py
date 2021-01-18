@@ -14,7 +14,7 @@ picked_up_block = False
 # Wake Word Event handler
 def on_wake_word(robot, event_type, event):
     if not context.is_in_DND_mode and not context.is_sleeping:
-        vector_react(robot, "wake_word")
+        vector_react(robot, "wake_word")  # Only done to record timestamp
 
     return
 
@@ -22,8 +22,8 @@ def on_wake_word(robot, event_type, event):
 def on_observed_object(robot, event_type, event):
     if not context.is_in_DND_mode and not context.is_sleeping:
 
-        # Ensure it has been at least 10 seconds since someone used Vector's wake word
         if event.object_family == "LIGHT_CUBE":
+            # Ensure it has been at least 10 seconds since someone used Vector's wake word
             if "wake_word" not in context.timestamps or (datetime.now() - context.timestamps["wake_word"]).total_seconds() > 10:
                 vector_react(robot, "cube_detected")
 
@@ -65,10 +65,7 @@ def on_robot_state(robot, event_type, event):
 
                 functions.debugPrint(f"Vector is well rested and was told to '{fully_charged_intent}'...")
 
-                # robot.conn.request_control()
                 robot.behavior.app_intent(intent=fully_charged_intent)  # Sometimes Vector will ignore this request, not sure why...
-                # async_future = # async_future.result()
-                # robot.conn.release_control()
 
                 context.restTimer = time.time() + random.randint(600, 1200)  # Delay timer for randomising time spent on charger.
 

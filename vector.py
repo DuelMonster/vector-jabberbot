@@ -86,7 +86,7 @@ def vector_say(robot, arg_say):
             robot.audio.set_master_volume(context.VOL[config.voice_volume])  # Change voice volume to config setting
 
             functions.debugPrint(f"Vector says: '{to_say}'")
-            robot.behavior.say_text(to_say, duration_scalar=1.15)  # I slow voice down slightly to make him easier to understand
+            robot.behavior.say_text(to_say, duration_scalar=1.15)  # Slow the voice down slightly to make him easier to understand
 
             if arg_say == "joke_intro":
                 robot.anim.play_animation_trigger(random.choice(context.JOKE_ANIM))  # If a joke, play a random animation trigger
