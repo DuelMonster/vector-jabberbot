@@ -90,6 +90,8 @@ def on_robot_state(robot, event_type, event):
             context.chargeTimer = time.time() + 30  # Delay timer for on charger.
 
             # Vectors battery needs charging
+            # battery_state.battery_level will report as 1 below 3.6 volts and Vectors return to charger event will be triggered.
+            # So we react to the low level before Vector can, by checking for a voltage of 3.605 or lower
             if battery_state.battery_volts <= 3.605:
                 vector_react(robot, "needs_charging")
                 functions.debugPrint(f"Battery Volts: {battery_state.battery_volts}")
