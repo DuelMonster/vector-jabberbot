@@ -21,14 +21,17 @@ def on_wake_word(robot, event_type, event):
 # Object Detection Event handler
 def on_observed_object(robot, event_type, event):
     if not context.is_in_DND_mode and not context.is_sleeping:
+        # Ensure it has been at least 30 seconds since someone used Vector's wake word
+        if "wake_word" not in context.timestamps or (datetime.now() - context.timestamps["wake_word"]).total_seconds() > 30:
 
-        if event.object_family == "LIGHT_CUBE":
-            # Ensure it has been at least 10 seconds since someone used Vector's wake word
-            if "wake_word" not in context.timestamps or (datetime.now() - context.timestamps["wake_word"]).total_seconds() > 10:
+            if event.object_family == context.OBJECT_FAMILY["LIGHT_CUBE"]:
                 vector_react(robot, "cube_detected")
 
-        # elif event.object_family != "CHARGER":
-        #     functions.debugPrint(f"observed_object: {event}")
+            elif event.object_family == context.OBJECT_FAMILY["CHARGER"]:
+                vector_react(robot, "charger_detected")
+
+            else:
+                functions.debugPrint(f"observed_object: {event.object_family}")
 
     return
 

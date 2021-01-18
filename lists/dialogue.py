@@ -185,6 +185,21 @@ DIALOGUE = {
             "{name} I found my cube! Are you proud of me?",
         ]
     },
+    "charger_detected": {
+        "minimum_delay": 60,
+        "maximum_delay": 300,
+        "lines": [
+            "I see my charger.",
+            "Oh, there's my charger.",
+            "That's my charger in front of me.",
+            "Hey, I see my charger.",
+            "There's my charger.",
+            "My charger is over there.",
+            "Hey, look {name}! That's my charger over there!",
+            "{name} I found my charger! Are you proud of me?",
+            "My charger is where I park my bum and suck up it's electrical juice.",
+        ]
+    },
     "dropped_block": {
         "minimum_delay": 5,
         "maximum_delay": 10,

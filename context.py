@@ -95,6 +95,12 @@ VOL = {
     5: audio.RobotVolumeLevel.HIGH
 }
 
+# Vectors default Objects
+OBJECT_FAMILY = {
+    "LIGHT_CUBE": 3,
+    "CHARGER": 4
+}
+
 # After Vector tells a joke he randomly plays one of these animation triggers
 JOKE_ANIM = [
     "GreetAfterLongTime",
