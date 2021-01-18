@@ -9,6 +9,7 @@ DIALOGUE = {
             "OH MY, someone is fiddlling with my insides!",
             "Fudging heck! I'm being hacked!",
             "I am the Jabber-Bot and you will bow down to me!",
+            "Jabber-Bot version {version} just hijacked my operating system!",
         ]
     },
     "cliff": {

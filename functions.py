@@ -33,6 +33,7 @@ def randomizer(to_say):
     faceInView = ("last_saw_name" in context.timestamps and (datetime.now() - context.timestamps["last_saw_name"]).total_seconds() < 30)
 
     return to_say.format(
+        version=context.VERSION,
         name=context.LAST_FACE_SEEN if faceInView else "",
         good=random.choice(context.GOOD_WORDS),
         interesting=random.choice(context.INTERESTING_WORDS),
