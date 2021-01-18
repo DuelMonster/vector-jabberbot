@@ -55,8 +55,8 @@ def init():
     previously_spoken = loadJSON('previously_spoken.json', default_data={"chit_chat": [], "dreams": [], "facts": [], "jokes": []})
 
     # Initialise random reation timers
-    global chargingTimer, chatTimer, faceTimer, heldTimer, objectTimer, restTimer
-    chargingTimer = time.time() + 5  # Delay timer for on charger.
+    global chargeTimer, chatTimer, faceTimer, heldTimer, objectTimer, restTimer
+    chargeTimer = time.time() + 5  # Delay timer for on charger.
     chatTimer = time.time() + 30     # Delay timer for random chit-chat.
     faceTimer = time.time() + 5      # Delay timer for face detection.
     heldTimer = time.time() + 5      # Delay timer for been picked up.

@@ -57,13 +57,23 @@ DIALOGUE = {
     },
     "needs_charging": {
         "minimum_delay": 60,
-        "maximum_delay": 60,
+        "maximum_delay": 300,
         "lines": [
             "Why does my battery always run low just as I'm having fun?",
-            "My battery is low.",
-            "Guess it's time to return to my charger.",
-            "My motors are tiered.",
-            "Time for a little rest me thinks."
+            "My battery is getting low {name}.",
+            "Guess it'll be time to return to my charger soon.",
+            "{name} My motors are tiered.",
+            "Almost time for a little rest me thinks."
+        ]
+    },
+    "cube_battery": {
+        "minimum_delay": 21600,
+        "maximum_delay": 21600,
+        "lines": [
+            "The battery in my cube needs changing.",
+            "Have you replace my cubes battery yet {name}?",
+            "I am very upset that my cubes battery is low.",
+            "{name} You need to replace my cubes battery!",
         ]
     },
     "touched": {

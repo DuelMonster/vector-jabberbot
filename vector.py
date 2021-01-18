@@ -16,7 +16,7 @@ def vector_react(robot, react_to):
         return
 
     if robot.status.is_pathing:  # If Vector is busy doing something, don't speak
-        functions.debugPrint("Vector is pathing...")
+        functions.debugPrint(f"Vector is pathing and refused to react to '{react_to}'...")
         return
 
     now = datetime.now()
@@ -48,8 +48,8 @@ def vector_react(robot, react_to):
 
                 vector_say(robot, react_to)
 
-    else:
-        functions.debugPrint(f"Vector isn't ready to talk about {react_to} yet.")
+    # else:
+    #     functions.debugPrint(f"Vector isn't ready to talk about {react_to} yet.")
 
     return
 

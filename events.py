@@ -46,10 +46,12 @@ def on_robot_state(robot, event_type, event):
 
     if not context.is_in_DND_mode and not context.is_sleeping:
 
+        battery_state = robot.get_battery_state()
+
         # Vectors is on his charger
-        if robot.status.is_on_charger and time.time() > context.chargingTimer:
+        if robot.status.is_on_charger and time.time() > context.chargeTimer:
             # If Vector is fully charged and has been on his charger for sometime, have him drive off
-            if robot.get_battery_state().battery_level == 3 and time.time() > context.restTimer:
+            if battery_state.battery_level == 3 and time.time() > context.restTimer:
                 fully_charged_intent = "explore_start"  # random.choices([
                 #     "explore_start",
                 #     "play_pickupcube",
@@ -74,17 +76,28 @@ def on_robot_state(robot, event_type, event):
 
             else:
                 vector_react(robot, "charging")
-                context.chargingTimer = time.time() + 60  # Delay timer for on charger.
+                context.chargeTimer = time.time() + 60  # Delay timer for on charger.
 
-                if robot.get_battery_state().battery_level < 3 and (context.restTimer - time.time()) < 0:
+                if battery_state.battery_level < 3 and (context.restTimer - time.time()) < 0:
                     context.restTimer = time.time() + random.randint(600, 1200)  # Delay timer for randomising time spent on charger.
 
-                # functions.debugPrint(f"Battery Level: {robot.get_battery_state().battery_level}")
+                # functions.debugPrint(f"Battery Level: {battery_state.battery_level}")
                 functions.debugPrint(f"Rest Time Remaining: {ceil((context.restTimer - time.time()) / 60)}")
 
-        # Vectors battery needs charging - *** This currently doesn't work due to Vector performing his return to charger event
-        # elif not robot.status.is_on_charger and robot.get_battery_state().battery_level <= 1:
-        #     vector_react(robot, "needs_charging")
+        # Check battery levels
+        elif not robot.status.is_on_charger and time.time() > context.chargeTimer:
+
+            context.chargeTimer = time.time() + 30  # Delay timer for on charger.
+
+            # Vectors battery needs charging
+            if battery_state.battery_volts <= 3.605:
+                vector_react(robot, "needs_charging")
+                functions.debugPrint(f"Battery Volts: {battery_state.battery_volts}")
+
+            # Vectors Cube battery needs charging
+            elif battery_state.cube_battery.level == 1:
+                vector_react(robot, "cube_battery")
+                functions.debugPrint(f"Cube battery Volts: {battery_state.cube_battery.battery_volts}")
 
         # Vectors is in calm power mode
         elif robot.status.is_in_calm_power_mode and robot.status.is_on_charger:
