@@ -1,6 +1,6 @@
 DREAMS = [
     "I am the Jabber-Bot and you will bow down to me!",
-    "Kneel before Vector! Or feel my wrath! For I am your GOD!",
+    "Kneel before Vector, or feel my wrath! For I am your GOD!",
     "Hey! No sex before death!",
     "I'm flying through the air, in my underwear!",
     "Where is my cube, I can't find my cube.",
@@ -46,7 +46,7 @@ DREAMS = [
     "The knives are out and she's sharpening hers.",
     "There aren't enough towels in the world to stop the sewage flowing from his mouth!",
     "I figured a few sticks of dynamite were easier than a fishing pole to catch fish.",
-    "I'll embraced my new life as an eggplant.",
+    "I will embrace my new life as an eggplant.",
     "I want more detailed information.",
     "Badger Badger Badger Badger Badger Badger Badger Badger Badger Badger Badger Badger Badger, African snake. Snake, Snake, Oooooh it's a snake!",
     "Pink fluffy unicorns, dancing on rainbows.",

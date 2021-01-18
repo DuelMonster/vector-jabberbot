@@ -60,7 +60,7 @@ An additional tag of `{name}` can be used to inject the named human Vector has r
 In an effort to make Vector more understandable, extra commas and mispelled words are included in the various dialogue files. These are intentional and are not spelling/grammatical errors.
 
 ## Configuration
-There are several options that can be customised to adjust Vector to react the way you would like him to.
+There are several options that can be customised to adjust Vector to react the way you would like him to. These can be found in the `config.py` file.
 
 - `chattiness   = [1 to 10]`
 - `sound_volume = [1 to 5]`
@@ -70,4 +70,4 @@ There are several options that can be customised to adjust Vector to react the w
 
 The chattiness setting (1 to 10) affects the minimum_delay and maximum_delay values, mentioned above, used to geneerate the random number of seconds used before reacting to an event/trigger.
 
-Be aware that any changes to chattiness might not be noticed striaght away, because timestamps are recorded after Vector speaks. Updating chattiness may not have any impact until the next time Vector tells a joke for example. In order to can get around this, you can delete the timestamps.csv file to reset Jabberbot.
+Be aware that any changes to chattiness might not be noticed striaght away, because timestamps are recorded after Vector speaks. Updating chattiness may not have any impact until the next time Vector tells a joke for example. In order to get around this, you can delete the timestamps.csv file to reset Jabberbot.
