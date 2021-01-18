@@ -65,7 +65,7 @@ def execute_jabberbot(id, stop_thread):
                         # Unknown object detection in range between 10-60mm
                         elif time.time() > context.objectTimer and not robot.status.is_docking_to_marker and not robot.status.is_being_held:
                             # We don't want Vector to stop in front of his cube and say "What is this?"
-                            if "cube_detected" not in context.timestamps or (datetime.now() - context.timestamps["cube_detected"]).total_seconds() > 10:
+                            if "cube_detected" not in context.timestamps or (datetime.now() - context.timestamps["cube_detected"]).total_seconds() > 30:
                                 # Check for object using Vectors proximity sensor data
                                 proximity_data = robot.proximity.last_sensor_reading
                                 if proximity_data is not None and proximity_data.found_object and robot.proximity.last_sensor_reading.distance.distance_mm in range(10, 60):
