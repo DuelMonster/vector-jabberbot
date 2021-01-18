@@ -6,7 +6,7 @@ SCARY_WORDS = [
     "Alarming",
     "Daunting",
     "Frightful",
-    "Grim",
+    "Grim"
     "Harrowing",
     "Shocking",
     "Chilling",
@@ -20,5 +20,6 @@ SCARY_WORDS = [
     "Hair-raising",
     "Horrendous",
     "Spine-chilling",
-    "Unnerving"
+    "Unnerving",
+    "Spoopy",
 ]

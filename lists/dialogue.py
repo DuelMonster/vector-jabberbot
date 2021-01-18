@@ -17,7 +17,7 @@ DIALOGUE = {
         "lines": [
             "WOE!",
             "Fudging heck that was {scary}!",
-            "Well, that was {scary}!",
+            "Wow, that was {scary}!",
             "That was super scary {name}!",
             "{swear} I thought I was going to fall!",
             "I'm sure glad that I didn't fall {name}!",
@@ -51,6 +51,7 @@ DIALOGUE = {
             "I am charging up my battery.",
             "This charger has some {good} juice",
             "Yummy! I love my charger {name}!",
+            "This is my charger this is my home, I love to sit here it is my throne.",
         ]
     },
     "needs_charging": {
