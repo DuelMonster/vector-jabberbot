@@ -22,6 +22,8 @@ def execute_jabberbot(id, stop_thread):
 
         if not context.is_in_DND_mode:
             vector_react(robot, "greeting")
+        else:
+            robot.conn.release_control()
 
         # robot.conn.request_control()
         # robot.behavior.set_eye_color(hue=0.01, saturation=0.99)
@@ -52,8 +54,8 @@ def execute_jabberbot(id, stop_thread):
 
                 if time.time() > dnd_timer:  # Is DND report timer up?
 
-                    context.is_in_DND_mode = (time.localtime().tm_hour < config.dnd_start and config.dnd_end >= time.localtime().tm_hour)
-                    debugPrint(f"DO-NOT-DISTURB mode check: (start) {time.localtime().tm_hour < config.dnd_start} <-> (end) {config.dnd_end >= time.localtime().tm_hour} = {context.is_in_DND_mode}")
+                    context.is_in_DND_mode = (time.localtime().tm_hour < config.dnd_start and config.dnd_end > time.localtime().tm_hour)
+                    # debugPrint(f"DO-NOT-DISTURB mode check: (start) {time.localtime().tm_hour < config.dnd_start} <-> (end) {config.dnd_end > time.localtime().tm_hour} = {context.is_in_DND_mode}")
 
                     dnd_timer = time.time() + 300  # Reset timer to only report DND every 5 minutes
 
