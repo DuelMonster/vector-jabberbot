@@ -97,10 +97,10 @@ def reset_timers():
     context.objectTimer = time.time() + 30  # Delay for unknown object detection.
 
 def not_wake_word_reacting():
-    return "wake_word" not in context.timestamps or (datetime.now() - context.timestamps["wake_word"]).total_seconds() > 30)
+    return "wake_word" not in context.timestamps or (datetime.now() - context.timestamps["wake_word"]).total_seconds() > 30
 
 def is_unknown_object():
-    unknown=(
+    unknown = (
         ("cube_detected" not in context.timestamps or (datetime.now() - context.timestamps["cube_detected"]).total_seconds() > 30) and
         ("charger_detected" not in context.timestamps or (datetime.now() - context.timestamps["charger_detected"]).total_seconds() > 30)
     )
