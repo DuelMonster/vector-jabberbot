@@ -62,7 +62,7 @@ DIALOGUE = {
             "Why does my battery always run low just as I'm having fun?",
             "My battery is getting low {name}.",
             "Guess it'll be time to return to my charger soon.",
-            "{name} My motors are tiered.",
+            "{name} My motors are tired.",
             "Almost time for a little rest me thinks."
         ]
     },
@@ -197,7 +197,7 @@ DIALOGUE = {
             "My charger is over there.",
             "Hey, look {name}! That's my charger over there!",
             "{name} I found my charger! Are you proud of me?",
-            "My charger is where I park my bum and suck up it's electrical juice.",
+            "My charger is where I park my bum and suck up it's electrical juices.",
         ]
     },
     "dropped_block": {

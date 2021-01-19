@@ -28,7 +28,7 @@ def execute_jabberbot(id, stop_thread):
         # robot.anim.play_animation("anim_eyepose_furious")
         # robot.conn.release_control()
 
-        dnd_timer = time.time()  # Inital delay for DO-NOT-DISTURB mode report checking
+        dnd_timer = time.time() - 1  # Inital delay for DO-NOT-DISTURB mode report checking
 
         robot.events.subscribe(events.on_wake_word, Events.wake_word)
         robot.events.subscribe(events.on_robot_state, Events.robot_state)
@@ -50,45 +50,47 @@ def execute_jabberbot(id, stop_thread):
                     debugPrint("Stopping Jabberbot while Vector is in his update/restart phase.")
                     return
 
-                elif config.dnd_end <= time.localtime().tm_hour < config.dnd_start:  # Outside of DO-NOT-DISTURB mode
-                    if context.is_in_DND_mode:  # Reset flags if DND mode ended
-                        context.is_in_DND_mode = False
+                if time.time() > dnd_timer:  # Is DND report timer up?
+
+                    context.is_in_DND_mode = (config.dnd_start >= time.localtime().tm_hour or config.dnd_end > time.localtime().tm_hour)
+                    debugPrint(f"DO-NOT-DISTURB mode check: (start) {config.dnd_start >= time.localtime().tm_hour} <-> (end) {config.dnd_end > time.localtime().tm_hour} = {context.is_in_DND_mode}")
+
+                    if context.is_in_DND_mode:
+                        # Report that Vector is in DND mode
+                        debugPrint(f"Vector is in DO-NOT-DISTURB mode: {config.dnd_start}:00 <-> {config.dnd_end}:00")
+                        dnd_timer = time.time() + 300  # Reset timer to only report DND every 5 minutes
+
+                        # If Vector isn't aready sleeping instruct him to go to sleep using his default sleep routine.
+                        if not robot.status.is_on_charger:
+                            robot.conn.request_control()
+                            robot.behavior.drive_on_charger()
+                            robot.conn.release_control()
+
+                    else:  # Reset flags if DND mode ended
                         context.is_sleeping = False
 
-                    if not context.is_sleeping:
-                        # Random chitchat
-                        if time.time() > context.chatTimer:
-                            reaction = random.choices(["pass", "chat_intro"], [15, 10], k=1)[0]
-                            vector_react(robot, reaction)
-                            context.chatTimer = time.time() + 30  # Delay timer for random chit-chat.
+                # Outside of DO-NOT-DISTURB mode
+                if not context.is_in_DND_mode and not context.is_sleeping:
+                    # Random chitchat
+                    if time.time() > context.chatTimer:
+                        reaction = random.choices(["pass", "chat_intro"], [15, 10], k=1)[0]
+                        vector_react(robot, reaction)
+                        context.chatTimer = time.time() + 30  # Delay timer for random chit-chat.
 
-                        # Unknown object detection in range between 10-60mm
-                        elif time.time() > context.objectTimer and not robot.status.is_docking_to_marker and not robot.status.is_being_held:
-                            # We don't want Vector to stop in front of his cube or charger and say "What is this?"
-                            if is_unknown_object():
-                                # Check for object using Vectors proximity sensor data
-                                proximity_data = robot.proximity.last_sensor_reading
-                                if proximity_data is not None and proximity_data.found_object and robot.proximity.last_sensor_reading.distance.distance_mm in range(10, 60):
-                                    vector_react(robot, "object_detected")
-                                    context.objectTimer = time.time() + 30  # Delay for unknown object detection.
+                    # Unknown object detection in range between 10-60mm
+                    elif time.time() > context.objectTimer and not robot.status.is_docking_to_marker and not robot.status.is_being_held:
+                        # We don't want Vector to stop in front of his cube or charger and say "What is this?"
+                        if is_unknown_object():
+                            # Check for object using Vectors proximity sensor data
+                            proximity_data = robot.proximity.last_sensor_reading
+                            if proximity_data is not None and proximity_data.found_object and robot.proximity.last_sensor_reading.distance.distance_mm in range(10, 60):
+                                vector_react(robot, "object_detected")
+                                context.objectTimer = time.time() + 30  # Delay for unknown object detection.
 
-                        # Check to see if Vector being petted using his touch sensor data
-                        touch_data = robot.touch.last_sensor_reading
-                        if touch_data is not None and touch_data.is_being_touched:
-                            vector_react(robot, "touched")
-
-                elif time.time() > dnd_timer:  # Is DND report timer up?
-
-                    # If Vector isn't aready sleeping instruct him to go to sleep using his default sleep routine.
-                    if not context.is_sleeping:
-                        context.is_sleeping = True
-                        if not robot.status.is_on_charger:
-                            robot.behavior.app_intent(intent="greeting_goodnight")  # Sometimes Vector will ignore this request, not sure why...
-
-                    # Report that Vector is in DND mode
-                    debugPrint(f"Vector is in DO-NOT-DISTURB mode...  {config.dnd_start}:00 <-> {config.dnd_end}:00")
-                    context.is_in_DND_mode = True
-                    dnd_timer = time.time() + 300  # Reset timer to only report DND every 5 minutes
+                    # Check to see if Vector being petted using his touch sensor data
+                    touch_data = robot.touch.last_sensor_reading
+                    if touch_data is not None and touch_data.is_being_touched:
+                        vector_react(robot, "touched")
 
                 # Sleep for a second then loop back (done to limit processor usage)
                 time.sleep(1)
