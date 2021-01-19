@@ -26,10 +26,10 @@ def on_observed_object(robot, event_type, event):
             proximity_data = robot.proximity.last_sensor_reading
             if proximity_data is not None and proximity_data.distance.distance_mm in range(60, 240):
 
-                if event.object_family == context.OBJECT_FAMILY.LIGHT_CUBE.value:
+                if event.object_family == context.OBJECT_FAMILY.LIGHT_CUBE:
                     vector_react(robot, "cube_detected")
 
-                elif event.object_family == context.OBJECT_FAMILY.CHARGER.value:
+                elif event.object_family == context.OBJECT_FAMILY.CHARGER:
                     vector_react(robot, "charger_detected")
 
                 else:

@@ -3,7 +3,7 @@ import random
 import time
 
 from datetime import datetime
-from enum import Enum
+from enum import Enum, IntEnum
 
 from anki_vector import audio
 
@@ -97,7 +97,7 @@ VOL = {
 }
 
 # Vectors default Objects
-class OBJECT_FAMILY(Enum):
+class OBJECT_FAMILY(IntEnum):
     LIGHT_CUBE = 3
     CHARGER = 4
 
