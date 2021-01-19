@@ -52,16 +52,18 @@ def execute_jabberbot(id, stop_thread):
 
                 if time.time() > dnd_timer:  # Is DND report timer up?
 
-                    context.is_in_DND_mode = (config.dnd_start >= time.localtime().tm_hour or config.dnd_end > time.localtime().tm_hour)
-                    debugPrint(f"DO-NOT-DISTURB mode check: (start) {config.dnd_start >= time.localtime().tm_hour} <-> (end) {config.dnd_end > time.localtime().tm_hour} = {context.is_in_DND_mode}")
+                    context.is_in_DND_mode = (time.localtime().tm_hour < config.dnd_start and config.dnd_end >= time.localtime().tm_hour)
+                    debugPrint(f"DO-NOT-DISTURB mode check: (start) {time.localtime().tm_hour < config.dnd_start} <-> (end) {config.dnd_end >= time.localtime().tm_hour} = {context.is_in_DND_mode}")
+
+                    dnd_timer = time.time() + 300  # Reset timer to only report DND every 5 minutes
 
                     if context.is_in_DND_mode:
                         # Report that Vector is in DND mode
                         debugPrint(f"Vector is in DO-NOT-DISTURB mode: {config.dnd_start}:00 <-> {config.dnd_end}:00")
-                        dnd_timer = time.time() + 300  # Reset timer to only report DND every 5 minutes
 
-                        # If Vector isn't aready sleeping instruct him to go to sleep using his default sleep routine.
+                        # Instruct Vector to return to his charger
                         if not robot.status.is_on_charger:
+                            debugPrint(f"Vector been told to return to his charger...")
                             robot.conn.request_control()
                             robot.behavior.drive_on_charger()
                             robot.conn.release_control()
