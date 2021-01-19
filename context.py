@@ -2,7 +2,7 @@ import csv
 import random
 import time
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum, IntEnum
 
 from anki_vector import audio
@@ -51,6 +51,9 @@ def init():
     global is_sleeping
     is_sleeping = False
 
+    global is_reacting
+    is_reacting = False
+
     # Previously spoken row records
     global previously_spoken
     previously_spoken = loadJSON('previously_spoken.json', default_data={"chit_chat": [], "dreams": [], "facts": [], "jokes": []})
@@ -65,6 +68,23 @@ def init():
     restTimer = time.time()          # Delay timer for randomising time spent on charger.
 
 # Function to save the timestamps (when an event/trigger happened, and when it can happen next)
+def update_timestamp(react_to, to_add_override=0):
+    to_add = to_add_override
+
+    if not to_add_override > 0 and react_to in DIALOGUE.keys():
+        reaction = DIALOGUE[react_to]
+
+        min_delay = int(int(reaction["minimum_delay"]) * CHATTINESS)  # Get the minimum delay and adjust by CHATTINESS
+        max_delay = int(int(reaction["maximum_delay"]) * CHATTINESS)  # Get the maximum delay and adjust by CHATTINESS
+        to_add = random.randint(min_delay, max_delay)
+
+    timestamps[react_to + "_next"] = datetime.now() + timedelta(seconds=to_add)  # Update timestamps with the next time Vector will be able to speak on that event/trigger
+    timestamps[react_to] = datetime.now()  # Update the event in timestamps so I have a timestamp for when event/trigger occurred
+
+    # functions.debugPrint(f"Adding {to_add} seconds to {react_to}.")
+
+    save_timestamps()
+
 def save_timestamps():
     with open('timestamps.csv', 'w', newline='') as csv_file:
         timestamp_writer = csv.writer(csv_file)

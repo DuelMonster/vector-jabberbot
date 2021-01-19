@@ -25,31 +25,26 @@ def vector_react(robot, react_to):
         context.timestamps[react_to] = now - timedelta(seconds=100)  # Fixes problem for new installs where Vector thinks everything JUST happened
         context.timestamps[react_to + "_next"] = now + timedelta(seconds=random.randint(6, 24))  # Don't want him trying to say everything at once
 
-    if now > context.timestamps[react_to + "_next"]:  # If the time for the [event/trigger]_next timestamp has passed, that event is available
-        functions.debugPrint(f"Vector is trying to react to: {react_to}")
+    if not context.is_reacting:
+        context.is_reacting = True
 
-        if react_to == "sleeping":
-            vector_sleep(robot)
+        if now > context.timestamps[react_to + "_next"]:  # If the time for the [event/trigger]_next timestamp has passed, that event is available
+            functions.debugPrint(f"Vector is trying to react to: {react_to}")
 
-        else:
-            if react_to in context.DIALOGUE.keys():
-                reaction = context.DIALOGUE[react_to]
+            if react_to == "sleeping":
+                vector_sleep(robot)
 
-                min_delay = int(int(reaction["minimum_delay"]) * context.CHATTINESS)  # Get the minimum delay and adjust by CHATTINESS
-                max_delay = int(int(reaction["maximum_delay"]) * context.CHATTINESS)  # Get the maximum delay and adjust by CHATTINESS
-                to_add = random.randint(min_delay, max_delay)
-
-                functions.debugPrint(f"Adding {to_add} seconds to {react_to}.")
-
-                context.timestamps[react_to + "_next"] = now + timedelta(seconds=to_add)  # Update timestamps with the next time Vector will be able to speak on that event/trigger
-                context.timestamps[react_to] = datetime.now()  # Update the event in timestamps so I have a timestamp for when event/trigger occurred
-
-                context.save_timestamps()
-
+            else:
+                context.update_timestamp(react_to)
                 vector_say(robot, react_to)
 
+        # else:
+        #     functions.debugPrint(f"Vector isn't ready to talk about {react_to} yet.")
+
+        context.is_reacting = False
+
     # else:
-    #     functions.debugPrint(f"Vector isn't ready to talk about {react_to} yet.")
+    #     context.update_timestamp(react_to, 10)  # reaction to retry again in 10 seconds
 
     return
 
@@ -129,7 +124,7 @@ def vector_sleep(robot):
 
         functions.debugPrint(f"Vector is dreaming: '{dream}'")
 
-        robot.behavior.say_text(dream, duration_scalar=1.95)  # Slow down Vectors speach so it sounds like he is dreaming
+        robot.behavior.say_text(dream, duration_scalar=2.25)  # Slow down Vectors speach so it sounds like he is dreaming
         robot.anim.play_animation(context.SLEEP_ANIM[random.randint(0, len(context.SLEEP_ANIM) - 1)])  # Play a random sleep animation
 
     # Wake Vector up after his little nap
