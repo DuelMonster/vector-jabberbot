@@ -11,7 +11,7 @@ from anki_vector.events import Events
 import config
 import context
 import events
-from functions import debugPrint, is_unknown_object
+from functions import debugPrint, not_wake_word_reacting, is_unknown_object
 from vector import vector_react
 
 context.init()
@@ -70,11 +70,8 @@ def execute_jabberbot(id, stop_thread):
                             robot.behavior.drive_on_charger()
                             robot.conn.release_control()
 
-                    else:  # Reset flags if DND mode ended
-                        context.is_sleeping = False
-
                 # Outside of DO-NOT-DISTURB mode
-                if not context.is_in_DND_mode and not context.is_sleeping:
+                if not context.is_in_DND_mode and not context.is_sleeping and not_wake_word_reacting():
                     # Random chitchat
                     if time.time() > context.chatTimer:
                         reaction = random.choices(["pass", "chat_intro"], [15, 10], k=1)[0]

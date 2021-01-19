@@ -22,14 +22,14 @@ def on_wake_word(robot, event_type, event):
 def on_observed_object(robot, event_type, event):
     if not context.is_in_DND_mode and not context.is_sleeping:
         # Ensure it has been at least 30 seconds since someone used Vector's wake word
-        if "wake_word" not in context.timestamps or (datetime.now() - context.timestamps["wake_word"]).total_seconds() > 30:
+        if functions.not_wake_word_reacting():
             proximity_data = robot.proximity.last_sensor_reading
             if proximity_data is not None and proximity_data.distance.distance_mm in range(60, 240):
 
-                if event.object_family == context.OBJECT_FAMILY.LIGHT_CUBE:
+                if event.object_family == context.OBJECT_FAMILY.LIGHT_CUBE.value:
                     vector_react(robot, "cube_detected")
 
-                elif event.object_family == context.OBJECT_FAMILY.CHARGER:
+                elif event.object_family == context.OBJECT_FAMILY.CHARGER.value:
                     vector_react(robot, "charger_detected")
 
                 else:
@@ -49,7 +49,7 @@ def on_observed_object(robot, event_type, event):
 def on_robot_state(robot, event_type, event):
     global picked_up_block
 
-    if not context.is_in_DND_mode and not context.is_sleeping:
+    if not context.is_in_DND_mode and not context.is_sleeping and functions.not_wake_word_reacting():
 
         battery_state = robot.get_battery_state()
 
