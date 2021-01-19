@@ -37,7 +37,7 @@ SWEAR_WORDS = [
     "Blimey!",
     "Galloping gremlins!",
     "Oh ship!",
-    "Toemato paste!",
+    "Tomatoe paste!",
     "Squeak!",
     "Zoinks!",
     "Fart knocker!",
