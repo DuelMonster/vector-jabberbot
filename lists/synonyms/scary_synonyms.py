@@ -6,7 +6,7 @@ SCARY_WORDS = [
     "Alarming",
     "Daunting",
     "Frightful",
-    "Grim"
+    "Grim",
     "Harrowing",
     "Shocking",
     "Chilling",
