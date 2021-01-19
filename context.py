@@ -3,6 +3,7 @@ import random
 import time
 
 from datetime import datetime
+from enum import Enum
 
 from anki_vector import audio
 
@@ -96,10 +97,10 @@ VOL = {
 }
 
 # Vectors default Objects
-OBJECT_FAMILY = {
-    "LIGHT_CUBE": 3,
-    "CHARGER": 4
-}
+class OBJECT_FAMILY(Enum):
+    LIGHT_CUBE = 3
+    CHARGER = 4
+
 
 # After Vector tells a joke he randomly plays one of these animation triggers
 JOKE_ANIM = [

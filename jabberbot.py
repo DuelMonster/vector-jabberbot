@@ -87,7 +87,7 @@ def execute_jabberbot(id, stop_thread):
                         if is_unknown_object():
                             # Check for object using Vectors proximity sensor data
                             proximity_data = robot.proximity.last_sensor_reading
-                            if proximity_data is not None and proximity_data.found_object and robot.proximity.last_sensor_reading.distance.distance_mm in range(10, 60):
+                            if proximity_data is not None and proximity_data.found_object and proximity_data.distance.distance_mm in range(10, 60):
                                 vector_react(robot, "object_detected")
                                 context.objectTimer = time.time() + 30  # Delay for unknown object detection.
 
