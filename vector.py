@@ -128,6 +128,7 @@ def vector_sleep(robot):
         robot.anim.play_animation(context.SLEEP_ANIM[random.randint(0, len(context.SLEEP_ANIM) - 1)])  # Play a random sleep animation
 
     # Wake Vector up after his little nap
+    time.sleep(random.randint(60, 300))
     robot.anim.play_animation("anim_gotosleep_wakeup_01")
     robot.audio.set_master_volume(context.VOL[config.voice_volume])
     vector_say(robot, "wake_up")
