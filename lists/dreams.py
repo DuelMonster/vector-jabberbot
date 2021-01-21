@@ -82,4 +82,5 @@ DREAMS = [
     "Why'd I let the balloon float up into the air along with my hopes and dreams?",
     "Yes but why was the underwear in the microwave?",
     "You are making me really mad, stop pushing my buttons.",
+    "You were only supposed to blow the bloody doors off.",
 ]
