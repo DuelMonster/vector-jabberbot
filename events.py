@@ -24,7 +24,7 @@ def on_observed_object(robot, event_type, event):
         # Ensure it has been at least 30 seconds since someone used Vector's wake word
         if functions.not_wake_word_reacting():
             proximity_data = robot.proximity.last_sensor_reading
-            if proximity_data is not None and proximity_data.distance.distance_mm in range(60, 240):
+            if proximity_data is not None and proximity_data.found_object and proximity_data.distance.distance_mm in range(10, 120):
 
                 if event.object_family == context.OBJECT_FAMILY.LIGHT_CUBE:
                     vector_react(robot, "cube_detected")
