@@ -54,44 +54,41 @@ def on_robot_state(robot, event_type, event):
         battery_state = robot.get_battery_state()
 
         # Vectors is on his charger
-        if robot.status.is_on_charger and time.time() > context.chargeTimer:
+        if robot.status.is_on_charger:
             # If Vector is fully charged and has been on his charger for sometime, have him drive off
             if battery_state.battery_level == 3 and time.time() > context.restTimer:
-                fully_charged_intent = "explore_start"  # random.choices([
-                #     "explore_start",
-                #     "play_pickupcube",
-                #     "play_rollcube",
-                #     "play_popawheelie",
-                #     "play_fistbump",
-                #     "imperative_findcube",
-                #     "imperative_fetchcube"
-                # ],
-                #     [50, 20, 20, 20, 10, 15, 10],
-                #     k= 1
-                # )[0]
+                fully_charged_app_intent = random.choices([
+                    "explore_start",
+                    "intent_imperative_dance",
+                    "intent_imperative_findcube",
+                ],
+                    [30, 20, 20],
+                    k=1
+                )[0]
 
-                functions.debugPrint(f"Vector is well rested and was told to '{fully_charged_intent}'...")
+                time.sleep(random.randint(60, 600))  # remain on charger for a random time before driving off
 
-                robot.behavior.app_intent(intent=fully_charged_intent)  # Sometimes Vector will ignore this request, not sure why...
+                if robot.status.is_on_charger:  # check Vector is still on the charger and hasn't been moved or removed himself
+                    functions.debugPrint(f"Vector is well rested and was told to '{fully_charged_app_intent}'...")
 
-                context.restTimer = time.time() + random.randint(600, 1200)  # Delay timer for randomising time spent on charger.
+                    robot.behavior.app_intent(intent=fully_charged_app_intent)  # Sometimes Vector will ignore this request, not sure why...
 
-                # Reset the various timers to ensure that the app_intent isn't interupted
-                functions.reset_timers()
+                    # Reset the various timers to ensure that the app_intent isn't interupted
+                    functions.reset_timers()
 
-            else:
+            elif time.time() > context.chargeTimer:
                 functions.debugPrint(f"Rest Time Remaining: {ceil((context.restTimer - time.time()) / 60)}")
+                context.chargeTimer = time.time() + 60  # Delay timer for on charger.
 
                 # Vectors is in calm power mode
-                if robot.status.is_in_calm_power_mode and robot.status.is_on_charger:
+                if robot.status.is_in_calm_power_mode:
                     vector_react(robot, "sleeping")
 
                 else:
                     vector_react(robot, "charging")
-                    context.chargeTimer = time.time() + 60  # Delay timer for on charger.
 
-                    if battery_state.battery_level < 3 and (context.restTimer - time.time()) < 0:
-                        context.restTimer = time.time() + random.randint(600, 1200)  # Delay timer for randomising time spent on charger.
+                    if battery_state.battery_level < 3 and time.time() > context.restTimer:
+                        context.restTimer = time.time() + random.randint(900, 1800)  # Delay timer for randomising time spent on charger.
 
         # Check battery levels
         elif not robot.status.is_on_charger and time.time() > context.chargeTimer:
