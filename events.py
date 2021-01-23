@@ -188,13 +188,13 @@ def on_observed_face(robot, event_type, event):
         else:
             functions.debugPrint(f"Vector observed an unknown face")
 
-        reaction = random.choices(["pass", "joke_intro", "fact_intro", "time_intro", "weather", "last_saw_name"], [35, 20, 20, 25, 25, 30], k=1)[0]
+        reaction = random.choices(["pass", "last_saw_name", "time_intro", "joke_intro", "fact_intro"], [40, 30, 20, 10, 10], k=1)[0]
 
-        if reaction == "weather":
-            robot.behavior.app_intent(intent="weather_response")
-
-        else:
-            vector_react(robot, reaction)
+        # Disabled weather reaction due to it not working
+        # if reaction == "weather":
+        #     robot.behavior.app_intent(intent="weather_response")
+        # else:
+        vector_react(robot, reaction)
 
         context.faceTimer = time.time() + 30  # Delay timer for face detection.
 
