@@ -4,6 +4,8 @@ import time
 from datetime import datetime
 from math import ceil
 
+from anki_vector.events import Events
+
 import functions
 import context
 
@@ -158,7 +160,7 @@ def on_robot_state(robot, event_type, event):
 #   }
 # }
 #
-# event_type == 'robot_changed_observed_face_id'
+# event_type == Events.robot_changed_observed_face_id
 # event = {
 #   old_id: -2
 #   new_id: 3
@@ -167,11 +169,12 @@ def on_robot_state(robot, event_type, event):
 def on_observed_face(robot, event_type, event):
 
     # Vector saw a face, and the timer for random comments is up (they are weighted, with "pass" for 'do nothing')
-    if context.is_in_DND_mode == False and context.is_sleeping == False and time.time() > context.faceTimer:
+    if not context.is_in_DND_mode and not context.is_sleeping and time.time() > context.faceTimer:
         # Update saw a face timestamp
         context.timestamps["last_saw_face"] = datetime.now()
 
-        face = robot.world.get_face(event.new_id if event_type == 'robot_changed_observed_face_id' else event.face_id)
+        # face = robot.world.get_face(event.new_id if event_type == Events.robot_changed_observed_face_id else event.face_id)
+        face = robot.world.visible_faces[0]
 
         # Did Vector recognize the face?
         if len(face.name) > 0:
@@ -180,9 +183,12 @@ def on_observed_face(robot, event_type, event):
             # Update recognized face timestamp
             context.timestamps["last_saw_name"] = datetime.now()
 
-        functions.debugPrint(f"Vector observed face: {context.LAST_FACE_SEEN}")
+            functions.debugPrint(f"Vector recognised: {context.LAST_FACE_SEEN}")
 
-        reaction = random.choices(["pass", "joke_intro", "fact_intro", "time_intro", "weather", "last_saw_name"], [50, 20, 20, 25, 25, 30], k=1)[0]
+        else:
+            functions.debugPrint(f"Vector observed an unknown face")
+
+        reaction = random.choices(["pass", "joke_intro", "fact_intro", "time_intro", "weather", "last_saw_name"], [35, 20, 20, 25, 25, 30], k=1)[0]
 
         if reaction == "weather":
             robot.behavior.app_intent(intent="weather_response")
