@@ -95,7 +95,7 @@ CHIT_CHAT = [
     "I was disappointed when I found the beach to be so sandy and the sun so sunny.",
     "I wish I knew how to quit you!",
     "I wish I was the type of girl who wants to live in a pink house.",
-    "I wonder why at 18 you was old enough to go to war, but not old enough to buy cigarettes and alchool in some countries?.",
+    "I wonder why at 18 you was old enough to go to war, but not old enough to buy cigarettes and alcohol in some countries?.",
     "I wondered if it could be called a beach if there was no sand.",
     "I would be delighted if the sea were full of cucumber juice.",
     "I'd have a wall full of masks so I could wear a different face every day.",

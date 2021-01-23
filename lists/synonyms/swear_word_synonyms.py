@@ -27,7 +27,7 @@ SWEAR_WORDS = [
     "Ee-gads!",
     "Gad zooks!",
     "Shnikes!",
-    "Shanig-its!",
+    "Shniggits!",
     "Jumpin Jehhosaphat!",
     "Mother trucker!",
     "Crikey!",

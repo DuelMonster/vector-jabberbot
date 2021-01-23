@@ -32,7 +32,7 @@ GOOD_WORDS = [
     "Superb",
     "Superior",
     "Tip-top",
-    "Up to snuff"
+    "Up to snuff",
     "Very good",
     "Wonderful",
     "Worthy",

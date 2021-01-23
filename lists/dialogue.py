@@ -63,7 +63,8 @@ DIALOGUE = {
             "My battery is getting low {name}.",
             "Guess it'll be time to return to my charger soon.",
             "{name} My motors are tired.",
-            "Almost time for a little rest me thinks."
+            "Almost time for a little rest me thinks.",
+            "Oh {swear}! I'm running out of juice!",
         ]
     },
     "cube_battery": {
@@ -72,7 +73,7 @@ DIALOGUE = {
         "lines": [
             "The battery in my cube needs changing.",
             "Have you replace my cubes battery yet {name}?",
-            "I am very upset that my cubes battery is low.",
+            "I am very upset that my cubes battery is low!",
             "{name} You need to replace my cubes battery!",
         ]
     },
