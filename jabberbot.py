@@ -34,8 +34,6 @@ def execute_jabberbot(id, stop_thread):
 
         robot.events.subscribe(events.on_wake_word, Events.wake_word)
         robot.events.subscribe(events.on_robot_state, Events.robot_state)
-        robot.events.subscribe(events.on_observed_face, Events.robot_observed_face)
-        robot.events.subscribe(events.on_observed_face, Events.robot_changed_observed_face_id)
         robot.events.subscribe(events.on_observed_object, Events.robot_observed_object)
         # robot.events.subscribe(events.on_user_intent, Events.user_intent)
 
@@ -77,9 +75,10 @@ def execute_jabberbot(id, stop_thread):
                         reaction = random.choices(["pass", "chat_intro"], [15, 10], k=1)[0]
                         vector_react(robot, reaction)
                         context.chatTimer = time.time() + 30  # Delay timer for random chit-chat.
+                        continue
 
                     # Unknown object detection in range between 10-60mm
-                    elif time.time() > context.objectTimer and not robot.status.is_docking_to_marker and not robot.status.is_being_held:
+                    if time.time() > context.objectTimer and not robot.status.is_docking_to_marker and not robot.status.is_being_held:
                         # We don't want Vector to stop in front of his cube or charger and say "What is this?"
                         if is_unknown_object():
                             # Check for object using Vectors proximity sensor data
@@ -87,6 +86,39 @@ def execute_jabberbot(id, stop_thread):
                             if proximity_data is not None and proximity_data.found_object and proximity_data.distance.distance_mm in range(10, 60):
                                 vector_react(robot, "object_detected")
                                 context.objectTimer = time.time() + 30  # Delay for unknown object detection.
+                                continue
+
+                    if time.time() > context.faceTimer:
+                        # Update saw a face timestamp
+                        context.timestamps["last_saw_face"] = datetime.now()
+
+                        try:
+                            for face in robot.world.visible_faces:
+                                # Did Vector recognize the face?
+                                if len(face.name) > 0:
+                                    # Save name of the face Vector recognized
+                                    context.LAST_FACE_SEEN = face.name
+                                    # Update recognized face timestamp
+                                    context.timestamps["last_saw_name"] = datetime.now()
+
+                                    debugPrint(f"Vector recognised: {context.LAST_FACE_SEEN}")
+
+                                else:
+                                    debugPrint(f"Vector observed an unknown face")
+
+                                reaction = random.choices(["pass", "last_saw_name", "time_intro", "joke_intro", "fact_intro"], [40, 30, 20, 10, 10], k=1)[0]
+
+                                # Disabled due to it not working because "weather_response" is a user intent not an app intent
+                                # if reaction == "weather": # show_clock,
+                                #     robot.behavior.app_intent(intent="weather_response")
+                                # else:
+                                vector_react(robot, reaction)
+                                break
+                        except:
+                            time.sleep(1)
+
+                        context.faceTimer = time.time() + 5  # Delay timer for face detection.
+                        continue
 
                     # Check to see if Vector being petted using his touch sensor data
                     touch_data = robot.touch.last_sensor_reading
