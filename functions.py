@@ -90,7 +90,7 @@ def get_time():
     return time.strftime("%I:%M %p")
 
 def reset_timers():
-    context.chargeTimer = time.time() + 60  # Delay timer for on charger.
+    context.chargeTimer = time.time() + 20  # Delay timer for on charger.
     context.heldTimer = time.time() + 5  # Delay timer for been picked up.
     context.faceTimer = time.time() + 30  # Delay timer for face detection.
     context.chatTimer = time.time() + 30  # Delay timer for random chit-chat.

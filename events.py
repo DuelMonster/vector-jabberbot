@@ -86,7 +86,7 @@ def on_robot_state(robot, event_type, event):
                 vector_react(robot, "charging")
 
                 functions.debugPrint(f"Rest Time Remaining: {ceil((context.restTimer - time.time()) / 60)}")
-                context.chargeTimer = time.time() + 60  # Delay timer for on charger.
+                context.chargeTimer = time.time() + 20  # Delay timer for on charger.
 
                 if battery_state.battery_level < 3 and time.time() > context.restTimer:
                     context.restTimer = time.time() + random.randint(900, 1800)  # Delay timer for randomising time spent on charger.
@@ -94,7 +94,7 @@ def on_robot_state(robot, event_type, event):
         # Check battery levels
         elif not robot.status.is_on_charger and time.time() > context.chargeTimer:
 
-            context.chargeTimer = time.time() + 30  # Delay timer for on charger.
+            context.chargeTimer = time.time() + 20  # Delay timer for on charger.
 
             # Vectors battery needs charging
             # battery_state.battery_level will report as 1 below 3.6 volts and Vectors return to charger event will be triggered.
