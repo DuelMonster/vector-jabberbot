@@ -78,18 +78,19 @@ def on_robot_state(robot, event_type, event):
                     # Reset the various timers to ensure that the app_intent isn't interupted
                     functions.reset_timers()
 
-            # Vectors is in calm power mode
-            elif robot.status.is_in_calm_power_mode:
-                vector_react(robot, "sleeping")
-
             elif time.time() > context.chargeTimer:
-                vector_react(robot, "charging")
 
                 functions.debugPrint(f"Rest Time Remaining: {ceil((context.restTimer - time.time()) / 60)}")
                 context.chargeTimer = time.time() + 20  # Delay timer for on charger.
 
                 if battery_state.battery_level < 3 and time.time() > context.restTimer:
                     context.restTimer = time.time() + random.randint(900, 1800)  # Delay timer for randomising time spent on charger.
+
+                # Vectors is in calm power mode
+                if robot.status.is_in_calm_power_mode:
+                    vector_react(robot, "sleeping")
+                else:
+                    vector_react(robot, "charging")
 
         # Check battery levels
         elif not robot.status.is_on_charger and time.time() > context.chargeTimer:
