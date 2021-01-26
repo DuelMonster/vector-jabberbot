@@ -102,7 +102,6 @@ def execute_jabberbot(id, stop_thread):
                                     context.timestamps["last_saw_name"] = datetime.now()
 
                                     debugPrint(f"Vector recognised: {context.LAST_FACE_SEEN}")
-
                                 else:
                                     debugPrint(f"Vector observed an unknown face")
 
@@ -114,6 +113,7 @@ def execute_jabberbot(id, stop_thread):
                                 # else:
                                 vector_react(robot, reaction)
                                 break
+
                         except:
                             time.sleep(1)
 

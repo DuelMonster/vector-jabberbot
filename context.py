@@ -24,7 +24,7 @@ from lists.synonyms.scary_synonyms import SCARY_WORDS
 from lists.synonyms.swear_word_synonyms import SWEAR_WORDS
 from lists.synonyms.weird_synonyms import WEIRD_WORDS
 
-VERSION = "0.1.6"
+VERSION = "0.1.7"
 
 def init():
     global timestamps

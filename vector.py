@@ -105,7 +105,7 @@ def vector_sleep(robot):
     context.is_sleeping = True
 
     # Set a random total sleep timer between 5-20 minutes
-    sleepDuration = random.randint(300, 1200)
+    sleepDuration = random.randint(600, 1200)
     sleepTimer = time.time() + sleepDuration
 
     functions.debugPrint(f"Okay, I am going into REM sleep now for {ceil(sleepDuration / 60)} mins...")
@@ -118,7 +118,7 @@ def vector_sleep(robot):
     # Give Vector a random sleep cycle
     while time.time() < sleepTimer:
 
-        time.sleep(random.randint(60, 300))
+        time.sleep(random.randint(120, 600))
 
         dream = random.choices([functions.random_sentance_generator(), functions.get_dream()], [10, 10], k=1)[0]
 
@@ -128,7 +128,7 @@ def vector_sleep(robot):
         robot.anim.play_animation(context.SLEEP_ANIM[random.randint(0, len(context.SLEEP_ANIM) - 1)])  # Play a random sleep animation
 
     # Wake Vector up after his little nap
-    time.sleep(random.randint(60, 300))
+    time.sleep(random.randint(120, 600))
     robot.anim.play_animation("anim_gotosleep_wakeup_01")
     robot.audio.set_master_volume(context.VOL[config.voice_volume])
     vector_say(robot, "wake_up")

@@ -68,7 +68,7 @@ def on_robot_state(robot, event_type, event):
                     "intent_imperative_lookatme"
                 ], [30, 20, 20, 20, 20, 20], k=1)[0]
 
-                time.sleep(random.randint(60, 600))  # remain on charger for a random time before driving off
+                time.sleep(random.randint(120, 600))  # remain on charger for a random time before driving off
 
                 if robot.status.is_on_charger:  # check Vector is still on the charger and hasn't been moved or removed himself
                     functions.debugPrint(f"Vector is well rested and was told to '{fully_charged_app_intent}'...")
@@ -84,7 +84,7 @@ def on_robot_state(robot, event_type, event):
                 context.chargeTimer = time.time() + 20  # Delay timer for on charger.
 
                 if battery_state.battery_level < 3 and time.time() > context.restTimer:
-                    context.restTimer = time.time() + random.randint(900, 1800)  # Delay timer for randomising time spent on charger.
+                    context.restTimer = time.time() + random.randint(900, 3600)  # Delay timer for randomising time spent on charger.
 
                 # Vectors is in calm power mode
                 if robot.status.is_in_calm_power_mode:
