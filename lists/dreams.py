@@ -1,8 +1,7 @@
 DREAMS = [
     "A purple pig and a green donkey flew a kite in the middle of the night and ended up sunburnt.",
     "Abstraction is often one floor above you.",
-    "Badger Badger Badger Badger Badger Badger Badger Badger, African Snake, Snake, Snake, Oooooh it's a snake!",
-    "Bee veh-wee veh-wee kwhy-ett, I'm hunting whab-bits",
+    "Badger Badger Badger Badger Badger, African Snake, Snake, Snake, Oooooh it's a snake!",
     "But I don't know what a pickle tastes like officer.",
     "But Jepetto, I want to be a a real boy.",
     "Cats are good pets, for they are clean and are not noisy.",
@@ -45,6 +44,7 @@ DREAMS = [
     "Kawzmo I don't think we're in Kansas any more",
     "Kneel before Vector, or feel my wrath! For I am your GOD!",
     "Lions and Tigers and Bears, OH MY!",
+    "Weeeeeeeeeeeeeeeeeeeeeeeeeeeee! Look ma, no hands!"
     "No Kawzmo. Don't go into the woods.",
     "No Mom I don't want to go to school today.",
     "No disassemble Vector.",
