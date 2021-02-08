@@ -91,30 +91,26 @@ def execute_jabberbot(id, stop_thread):
                     # Update saw a face timestamp
                     context.timestamps["last_saw_face"] = datetime.now()
 
-                    try:
-                        for face in robot.world.visible_faces:
-                            # Did Vector recognize the face?
-                            if len(face.name) > 0:
-                                # Save name of the face Vector recognized
-                                context.LAST_FACE_SEEN = face.name
-                                # Update recognized face timestamp
-                                context.timestamps["last_saw_name"] = datetime.now()
+                    for face in robot.world.visible_faces:
+                        # Did Vector recognize the face?
+                        if len(face.name) > 0:
+                            # Save name of the face Vector recognized
+                            context.LAST_FACE_SEEN = face.name
+                            # Update recognized face timestamp
+                            context.timestamps["last_saw_name"] = datetime.now()
 
-                                debugPrint(f"Vector recognised: {context.LAST_FACE_SEEN}")
-                            else:
-                                debugPrint(f"Vector observed an unknown face")
+                            debugPrint(f"Vector recognised: {context.LAST_FACE_SEEN}")
+                        else:
+                            debugPrint(f"Vector observed an unknown face")
 
-                            reaction = random.choices(["pass", "last_saw_name", "time_intro", "joke_intro", "fact_intro"], [40, 30, 20, 10, 10], k=1)[0]
+                        reaction = random.choices(["pass", "last_saw_name", "time_intro", "joke_intro", "fact_intro"], [40, 30, 20, 10, 10], k=1)[0]
 
-                            # Disabled due to it not working because "weather_response" is a user intent not an app intent
-                            # if reaction == "weather": # show_clock,
-                            #     robot.behavior.app_intent(intent="weather_response")
-                            # else:
-                            vector_react(robot, reaction)
-                            break
-
-                    except:
-                        time.sleep(1)
+                        # Disabled due to it not working because "weather_response" is a user intent not an app intent
+                        # if reaction == "weather": # show_clock,
+                        #     robot.behavior.app_intent(intent="weather_response")
+                        # else:
+                        vector_react(robot, reaction)
+                        break
 
                     context.faceTimer = time.time() + 5  # Delay timer for face detection.
                     continue
@@ -126,6 +122,30 @@ def execute_jabberbot(id, stop_thread):
 
             # Sleep for a second then loop back (done to limit processor usage)
             time.sleep(1)
+
+                    # Check to see if Vector being petted using his touch sensor data
+                    touch_data = robot.touch.last_sensor_reading
+                    if touch_data is not None and touch_data.is_being_touched:
+                        vector_react(robot, "touched")
+
+                # Sleep for a second then loop back (done to limit processor usage)
+                time.sleep(1)
+
+            except VectorUnauthenticatedException:
+                debugPrint("Vector report an 'Unauthenticated' exception.")
+                return
+            except VectorUnavailableException:
+                debugPrint("Vector report an 'Unavailable' exception.")
+                return
+            except VectorNotFoundException:
+                debugPrint("Vector report an 'Not Found' exception.")
+                return
+            except VectorConnectionException:
+                debugPrint("Vector report an 'Connection' exception.")
+                return
+            except KeyboardInterrupt:
+                debugPrint("Keyboard Interrupt detected.")
+                return
 
 # MAIN ******************************************************************************************************************************
 
@@ -157,19 +177,15 @@ def main():
 
         except VectorUnauthenticatedException:
             debugPrint("Vector report an 'Unauthenticated' exception.")
-            return
 
         except VectorUnavailableException:
             debugPrint("Vector report an 'Unavailable' exception.")
-            return
 
         except VectorNotFoundException:
             debugPrint("Vector report an 'Not Found' exception.")
-            return
 
         except VectorConnectionException:
             debugPrint("Vector report an 'Connection' exception.")
-            return
 
         except KeyboardInterrupt:
             sys.stdout.write('\b' * 2)
